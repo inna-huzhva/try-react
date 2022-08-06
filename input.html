@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Input field</title>
+  <style type="text/css">
+    .input-container {
+      height: 70px;
+    }
+    #input {
+      height: 20px;
+    }
+    #notification {
+      color: red;
+    }
+    #symbol {
+      display: inline-block;
+      width: 30px;
+      margin-left: 5px;
+    }
+    ul {
+      list-style-type: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="input-container">
+    <input id="input" type="text" name="element" onKeyUp="handleInput()" />
+    <span id="symbol"></span>
+    <button id="add-button" onclick="addElement()" disabled>Add element</button>
+    <button id="delete-button" onclick="deleteElements()" disabled>Delete all elements</button>
+    <div id="notification"></div>
+  </div>
+  <h3>Things:</h3>
+  <ul id="list"></ul>
+
+  <script type="text/javascript">
+    let things = [];
+
+    function render(l) {
+      return l.map(x => `<li>${x}</li>`).join("");
+    }
+
+    function addElement() {
+      things.push(el("input").value);
+      el("list").innerHTML = render(things);
+      el("delete-button").disabled = false;
+    }
+
+    function deleteElements() {
+      things = [];
+      el("list").innerHTML = render(things);
+      el("delete-button").disabled = true;
+    }
+
+    function handleInput() {
+      let inputText = el("input").value;
+      let lowerInputText = inputText.toLowerCase();
+      let mistakes = validate(lowerInputText);
+      if (lowerInputText.length === 0) {
+        el("symbol").innerHTML = "";
+        el("notification").innerHTML = "";
+        el("input").style.outlineColor = "";
+      } else if (mistakes.length === 0) {
+        el("symbol").innerHTML = "&#x2705;";
+        el("notification").innerHTML = "";
+        el("input").style.outlineColor = "green";
+        el("add-button").disabled = false;
+      } else {
+        el("symbol").innerHTML = "&#x26D4;";
+        el("input").style.outlineColor = "red";
+        el("notification").innerHTML = mistakes.join("<br />");
+        el("add-button").disabled = true;
+      }
+    }
+
+    function validate(text) {
+      let errors = [];
+      if (text.indexOf('f') !== -1) {
+        errors.push("Your element has letter 'f' or 'F'");
+      }
+      if (/\s/.test(text)) {
+        errors.push("Your element has empty space");
+      }
+      if (text.length < 6) {
+        errors.push("Your element`s length is less than 6");
+      }
+      return errors;
+    }
+
+    function el(id) {
+      return document.getElementById(id);
+    }
+  </script>
+</body>
+</html>
