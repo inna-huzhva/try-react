@@ -19,6 +19,13 @@
     }
     ul {
       list-style-type: none;
+      padding-left: 20px;
+    }
+    .thing {
+      margin-top: 5px;
+    }
+    .thing button {
+      margin-left: 10px;
     }
   </style>
 </head>
@@ -27,7 +34,7 @@
     <input id="input" type="text" name="element" onKeyUp="handleInput()" />
     <span id="symbol"></span>
     <button id="add-button" onclick="addElement()" disabled>Add element</button>
-    <button id="delete-button" onclick="deleteElements()" disabled>Delete all elements</button>
+    <button id="delete-all-button" onclick="deleteElements()" disabled>Delete all elements</button>
     <div id="notification"></div>
   </div>
   <h3>Things:</h3>
@@ -37,19 +44,34 @@
     let things = [];
 
     function render(l) {
-      return l.map(x => `<li>${x}</li>`).join("");
+      let html = "";
+      for (i = 0; i < things.length; i++) {
+        html += "<li class=\"thing\">";
+        html += things[i];
+        html += `<button onclick="deleteElement(${i})">Delete</button>`;
+        html += "</li>";
+      }
+      return html;
     }
 
     function addElement() {
       things.push(el("input").value);
       el("list").innerHTML = render(things);
-      el("delete-button").disabled = false;
+      el("delete-all-button").disabled = false;
+    }
+
+    function deleteElement(i) {
+      things.splice(i, 1);
+      el("list").innerHTML = render(things);
+      if (things.length === 0) {
+        el("delete-all-button").disabled = true;
+      }
     }
 
     function deleteElements() {
       things = [];
       el("list").innerHTML = render(things);
-      el("delete-button").disabled = true;
+      el("delete-all-button").disabled = true;
     }
 
     function handleInput() {
