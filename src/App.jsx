@@ -1,15 +1,25 @@
 import React, {useState} from "react";
-import Counter from "./Counter.jsx";
+import Input from "./Input.jsx";
 import "./normalize.css"
 import "./style.css";
 
 function App() {
-  const [value, setValue] = useState("text in input");
+  const [things, setThings] = useState([]);
+
+  function addElement(e) {
+    setThings([...things, e]);
+  }
 
   return (
-    <div className="App">
-      <Counter />
-    </div>
+    <>
+      <Input addElement={addElement} />
+      <h3>Things:</h3>
+      <ul id="list">
+        {things.map((t, i) => (
+          <li className="thing" key={i}>{t}</li>
+        ))}
+      </ul>
+    </>
   );
 }
 

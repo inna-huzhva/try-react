@@ -1,3 +1,24 @@
-body {
-  background-color: pink;
+.input-container {
+  height: 70px;
+}
+#input {
+  height: 20px;
+}
+#notification {
+  color: red;
+}
+#symbol {
+  display: inline-block;
+  width: 30px;
+  margin-left: 5px;
+}
+ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+.thing {
+  margin-top: 5px;
+}
+.thing button {
+  margin-left: 10px;
 }
