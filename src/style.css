@@ -22,3 +22,6 @@ ul {
 .thing button {
   margin-left: 10px;
 }
+#delete-all-button {
+  margin-left: 20px;
+}
